@@ -3,15 +3,58 @@ app=express(),
 ejs=require('ejs'),
 mongoose=require('mongoose'),
 passport=require('passport'),
+jwt=require('jsonwebtoken'),
 bodyParser = require('body-parser'),
 expressSessions = require('express-sessions'),
 LocalStrategy=require('passport-local');
+
+User=require('./models/user');
+Book=require('./models/book');
+Issue=require('./models/issue');
+
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
+app.use(passport.initialize());
+passport.use(new LocalStrategy(User.authenticate()));
+
+
+
 
 mongoose.connect('mongodb+srv://test:test@cluster0.lq9vw.mongodb.net/libmngmtsys?retryWrites=true&w=majority',{useNewUrlParser: true, useUnifiedTopology:true});
 var db=mongoose.connection;
 db.on('open',function(err){
 	console.log("connected to db");
 });
+
+app.post("/login",function(req,res){
+	const user = new User({
+	  username:req.body.username,
+	  password:req.body.password
+	});
+	req.login(user, function(err){
+	  if(err){
+		console.log(err);
+		res.status(400).send(err);
+	  } else {
+		  console.log("in");
+		passport.authenticate("local")(req,res,function(){
+			if(err)
+				res.status(401).send(err)
+			else{
+			User.findOne({username:user.username},function(err,u){
+				console.log(u)
+
+				res.send({"token":jwt.sign({user:u},'key')});
+			});
+		  
+			}
+		  
+
+		}); 
+	  }
+	});
+  });
+  
 
 
 User=require('./models/user');
@@ -38,9 +81,19 @@ var h = date.getHours();
 var m = date.getMinutes();
 var s = date.getSeconds();
 
+const retriveUser=(req,res,next)=>{
+	const token=req.headers.authorization;
+	
+	jwt.verify(token,'key',function(err,user){
+		
+		req.user=user
+		
+	});
+	next();
+}
 
 
-  app.get("/profile",function(req,res){
+  app.get("/profile",retriveUser,function(req,res){
 	  if(req.isAuthenticated()){
 		  const user = req.user;
 		  console.log(user);
@@ -48,9 +101,10 @@ var s = date.getSeconds();
 	 }
 
   });
-	app.get("/issued",function(req,res){
+	app.get("/issued",retriveUser,function(req,res){
 		if(req.isAuthenticated()){
-			const user = req.user.username;
+			const user = req.user.user.username;
+			console.log(req.user,req.user.user.username)
 			Issue.find({username: user},function(err,books){
 				if(err){
 					console.log(err);
@@ -65,7 +119,7 @@ var s = date.getSeconds();
 
 
 
-app.post("/issueapi",function(req,res){
+app.post("/issueapi",retriveUser,function(req,res){
 	console.log(req.body,req.accno);
 	var name;
 
@@ -74,7 +128,7 @@ app.post("/issueapi",function(req,res){
 
 	var newissue = new Issue({
 		AccNo: req.body.accno,
-		username: req.user.username,
+		username: req.user.user.username,
 		name:name
 	})
 
@@ -171,6 +225,9 @@ app.post("/search",function(req,res){
 		})
 	}
 })
+
+
+	
 
 
 app.listen(process.env.PORT||2000,function(err){
