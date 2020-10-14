@@ -1,0 +1,39 @@
+<html>
+<head>
+	<title>Library Managemant System</title>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="materialize/css/materialize.css">
+</head>
+<body>
+	<%- include('partials/navbar') %>
+	<div class="card" style = "position:absolute;height:26.5px;width: 30%; left:35%;top:22%;border-radius: 6px;">
+	<div class="row">
+
+				<div class="row">
+					<form class="col s12" action='/login' method='POST'>
+					  <div class="row">
+						<div class="input-field col s6">
+							<i class="material-icons prefix">account_circle</i>
+						  <input id="Username" type="text" name="username" class="validate">
+						  <label for="Username">Username</label>
+						</div>
+					  </div>
+					  <div class="row">
+						<div class="input-field col s6">
+							<i class="material-icons prefix">fingerprint</i>
+						  <input id="password" type="password"  name="password"class="validate">
+						  <label for="password">Password</label>
+						</div>
+					  </div>
+					  <button class="btn waves-effect waves-light center" type="submit" name="action">login
+						<i class="material-icons right">lock_open</i>
+					  </button>
+					</form>
+				  </div>
+			</div>
+		  </div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
+	</script>
+</body>
+</html>

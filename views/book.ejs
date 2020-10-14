@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+  <%- include('partials/navbar') %>
+	<div class="card" style = "position:absolute;height:93.5%;width: 30%; left:35%;top:26%;border-radius: 6px;">
+	<div class="row">
+
+				<div class="row">
+					<form class="col s12" action='/book' method='POST'>
+					  <div class="row">
+						<div class="input-field col s6">
+            <i class="material-icons prefix">book</i>
+                <label for="name">Name</label>
+                <input type="text" class="form-control" name="name">
+              </div>
+  					   </div>
+  					   <div class="row">
+  						<div class="input-field col s6">
+                <i class="material-icons prefix">supervisor_account</i>
+                <label for="author">Author</label>
+                <input type="text" class="form-control" name="author" >
+              </div>
+  					   </div>
+  					   <div class="row">
+  						<div class="input-field col s6">
+                <i class="material-icons prefix">view_list</i>
+                <label for="IsBN">ISBN</label>
+                <input type="number" class="form-control" name="ISBN">
+              </div>
+  					   </div>
+  					   <div class="row">
+  						<div class="input-field col s6">
+                <i class="material-icons prefix">view_list</i>
+                <label for="ShelfNo">ShelfNo</label>
+                <input type="text" class="form-control" name="ShelfNo" >
+              </div>
+  					   </div>
+  					   <div class="row">
+  						<div class="input-field col s6">
+                <i class="material-icons prefix">account_circle</i>
+              <label for="AccNo">AccNo</label>
+              <input type="text" class="form-control" name="AccNo" >
+            </div>
+					   </div>
+					   <div class="row">
+						<div class="input-field col s6">
+              <i class="material-icons prefix">print</i>
+              <label for="publisher">Publisher</label>
+              <input type="text" class="form-control" name="publisher">
+            </div>
+					   </div>
+					   <div class="row">
+						<div class="input-field col s6">
+              <i class="material-icons prefix">class</i>
+              <label for="catagory">Catagory</label>
+              <input type="text" class="form-control" name="branch" list="catagory">
+            </div>
+					  </div>
+					  <button class="btn waves-effect waves-light center" type="submit" name="action">Register
+						<i class="material-icons right">send</i>
+					  </button>
+          </form>
+				  </div>
+			</div>
+		  </div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
+	</script>
+</body>
+</html>

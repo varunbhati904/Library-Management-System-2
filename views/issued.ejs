@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+
+      <nav>
+
+        <div class="nav-wrapper teal lighten-2">
+          <a href="/" class="brand-logo">Cosmos</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+          <a  class="right hide-on-med-and-down brand-logo center brand-logo center ">LIBRARY MANAGEMENT SYSTEM</a>
+           <ul class="right hide-on-med-and-down">
+        <li><a href="/dashboard"><i class="material-icons right">developer_board</i>Dashboard</a></li>
+        <li><a href="/logout"><i class="material-icons right">lock_open</i>Sign Out</a></li>
+      </ul>
+
+        </div>
+
+      </nav>
+      <ul class="sidenav" id="mobile-demo">
+        <a href="#" class="brand-logo center ">LIBRARY MANAGEMENT SYSTEM</a>
+      </ul>
+
+      <img class="pulse hide-on-med-and-down" src="images/logo.JPG" style="position:absolute; height:15%;width:auto;border-radius:50%;top:6%;left:45%;box-shadow:5px;">
+
+  <br><br><br>
+   <center>
+<h1 style="font-family:'IM Fell French Canon SC', serif;color:teal">Find Books</h1>
+   </center>
+      <br>
+      <br>
+
+      <table  class="responsive-table centered striped">
+        <thead>
+          <tr>
+
+              <th>ACCOUNT NUMBER</th>
+		<th>Name</th>
+              <th>Issued On</th>
+              <th>Due On</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% for(var i=0;i<found.length;i++){ %>
+          <tr>
+
+            <td><%=found[i].AccNo%></td>
+		<td><%=found[i].name%></td>
+            <td><%=found[i].issud_on.toDateString()%></td>
+            <td><%=found[i].Due_on.toDateString()%></td>
+          </tr>
+        <%}%>
+        </tbody>
+      </table>
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+    </body>
+  </html>

@@ -1,0 +1,101 @@
+<%- include('partials/header') %>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/> 
+
+<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+<script>
+
+function add(response){
+console.log(response);
+resp=JSON.parse(response);
+console.log(resp);
+var t=document.getElementById("issue");
+t.innerHTML+="<tr><td>"+resp.AccNo+"</td><td>"+resp.name+"</td><td>"+resp.author+"</td>"+"</td></tr>";
+
+}
+
+function send(acc){
+
+
+var xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+       // Typical action to be performed when the document is ready:
+       //alert("issued")
+	console.log( xhttp.responseText);
+	add(xhttp.responseText);
+    }
+	else if(this.readyState == 4 && this.status == 200)
+	console.log( xhttp.responseText);
+};
+xhttp.open("POST", "/deposit", true);
+
+xhttp.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+var data=JSON.stringify({
+accno:acc,
+user:{
+username:"aaa"
+}
+})
+console.log(data);
+xhttp.send(data);
+}
+</script>
+
+
+        <div class="container mt-5">
+            <h1>Deposit</h1>
+        <div class="row">
+          <div class="col-sm-8">
+            <div class="card">
+              <div class="card-body">
+
+                <!-- Makes POST request to /register route -->
+                <form onsubmit="send(this.accno.value);return false">
+                  <div class="form-group">
+                    <div class="form-group">
+                      <label for="AccNo">Account Number of Book</label>
+                      <input type="text" class="form-control" name="accno">
+                    </div>
+
+                  <button type="submit" class="btn btn-dark">Deposit</button>
+                </form>
+
+            </div>
+          </div>
+        </div>
+
+<br>
+<h2>Or Scan QR Code</h2>
+
+ <video id="preview"></video>
+    <script type="text/javascript">
+      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+      scanner.addListener('scan', function (content) {
+        console.log(content);
+	send(content);
+      });
+      Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+          scanner.start(cameras[0]);
+        } else {
+          console.error('No cameras found.');
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
+    </script>
+
+
+  </div>
+<div>
+<table class="responsive" id="issue">
+<tr><td>Name</td><td>Account No</td>
+<td>Author</td></tr>
+</table>
+</div>
+</div>
+
+<%- include('partials/footer') %>
