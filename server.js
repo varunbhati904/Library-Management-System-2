@@ -169,8 +169,9 @@ app.post("/issueapi",retriveUser,function(req,res){
 
 });
 app.get("/search/:book/:author",function(req,res){
-	const book = req.params.book;
+	const book = req.params.book.trim();
 	const author = req.params.author;
+	
 	if(!book){
 		if(!author){
 			Book.find({},function(err,found){
