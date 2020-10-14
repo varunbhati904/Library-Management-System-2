@@ -18,6 +18,8 @@ app.use(passport.initialize());
 passport.use(new LocalStrategy(User.authenticate()));
 
 
+var cors = require('cors');
+app.use(cors());
 
 
 mongoose.connect('mongodb+srv://test:test@cluster0.lq9vw.mongodb.net/libmngmtsys?retryWrites=true&w=majority',{useNewUrlParser: true, useUnifiedTopology:true});
